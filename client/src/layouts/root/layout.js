@@ -2,9 +2,9 @@ import template from "./template.html?raw";
 import { htmlToFragment } from "../../lib/utils.js";
 import { HeaderView } from "../../ui/header/index.js";
 import { FooterView } from "../../ui/footer/index.js";
+import { CategoryData } from "../../data/Category.js";
 
-
-
+let categories = await CategoryData.fetchAll()
 /**
  * Construit et retourne le layout principal de l'application.
  *
@@ -21,7 +21,7 @@ import { FooterView } from "../../ui/footer/index.js";
  */
 export function RootLayout() {
     let layout = htmlToFragment(template);
-    let header = HeaderView.dom();
+    let header = HeaderView.dom(categories);
     let footer = FooterView.dom();
     layout.querySelector('slot[name="header"]').replaceWith(header);
     layout.querySelector('slot[name="footer"]').replaceWith(footer);

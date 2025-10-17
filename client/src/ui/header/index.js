@@ -1,17 +1,40 @@
-import { htmlToFragment } from "../../lib/utils.js";
+import { htmlToFragment, genericRenderer } from "../../lib/utils.js";
 import template from "./template.html?raw";
 
-// HeaderView est un composant statique
-// on ne fait que charger le template HTML
-// en donnant la possibilité de l'avoir sous forme html ou bien de dom
-let HeaderView = {
-  html: function () {
-    return template;
-  },
+let link = `<a href="/category/{{id}}/{{name}}" data-link class="text-white px-4 py-2 rounded transition-colors duration-200 hover:bg-white/10">{{name}}</a>`;
 
-  dom: function () {
-    return htmlToFragment(template);
-  }
+function generateLinks(data) {
+  const items = Array.isArray(data)
+    ? data
+    : (data && (data.links || data.categories)) || [];
+
+  const liens = items
+    .map(item => 
+      link
+        .replace(/{{id}}/g, String(item.id))
+        .replace(/{{name}}/g, encodeURIComponent(String(item.name))) // encode pour URL
+    )
+    .join("");
+
+  return liens;
+}
+
+function renderTemplateWithLinks(data) {
+  // Remplacer proprement {{links}} où qu'il soit
+  const output = template.replace(/{{\s*links\s*}}/g, generateLinks(data));
+  console.log("✅ Template rendu :", output);
+  return output;
+}
+
+
+let HeaderView = {};
+
+HeaderView.html = function (data) {
+  return renderTemplateWithLinks(data);
+  
+};
+HeaderView.dom = function (data) {
+  return htmlToFragment(HeaderView.html(data));
 };
 
 export { HeaderView };
