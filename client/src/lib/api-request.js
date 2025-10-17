@@ -4,7 +4,7 @@
  */
 
 
-let API_URL = "http://mmi.unilim.fr/~morap01/api/";
+let API_URL = "https://mmi.unilim.fr/~lochis1/SAE301/api/";
 
 
 /**
@@ -29,7 +29,10 @@ let getRequest = async function(uri){
     };
 
     try{
-        var response = await fetch(API_URL+uri, options); // exécution (asynchrone) de la requête et attente de la réponse
+        let url = API_URL+uri;
+        var response = await fetch(API_URL+uri, options);
+        console.log(url)
+         // exécution (asynchrone) de la requête et attente de la réponse
     }
     catch(e){
         console.error("Echec de la requête : "+e); // affichage de l'erreur dans la console

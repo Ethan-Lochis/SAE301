@@ -1,11 +1,24 @@
-<article class="overflow-hidden rounded-lg bg-white p-6 shadow-md transition hover:shadow-lg">
-  <span class="mb-2 block text-sm font-medium text-gray-500">ID: {{id}}</span>
-  <h3 class="mb-4 text-xl font-bold text-gray-900">{{name}}</h3>
-  <a href="/products/{{id}}/{{name}}" data-link>Voir le détail</a>
-  <button 
-    data-buy="{{id}}" 
-    class="w-full rounded-lg bg-green-600 px-4 py-2 text-white transition hover:bg-green-700"
-  >
-    Acheter
-  </button>
+<!-- usage shadow pour bordure interne  -->
+<article
+  data-product="{{id}}"
+  data-name="{{name}}"
+  class="flex flex-col justify-between rounded-lg bg-bgDark shadow-md overflow-hidden p-6 transition-shadow hover:shadow-[inset_0_0_0_2px] hover:shadow-detail"
+>
+  <!-- <span class="block mb-2 text-sm font-medium text-gray-500">ID: {{id}}</span> -->
+  <div class="w-full h-[381px] flex items-center justify-center overflow-hidden bg-detail p-8 ">
+    <img src="{{url}}" alt="{{name}}" class="w-full h-full object-contain" />
+  </div>
+  <div>
+    <h3 class="text-xl font-bold text-fg">{{name}}</h3>
+    <h2 class="pb-4 text-base font-bold text-fg">{{price}}€</h2>
+  </div>
+  <ul class="text-description">
+    <li>{{description}}</li>
+  </ul>
+
+  <div class="flex justify-end mt-4">
+    <button data-buy="{{id}}" class="rounded-lg bg-main p-4 cursor-pointer">
+      <img data-buy="{{id}}" src="./assets/Icons/Cart.svg" alt="Icone panier" />
+    </button>
+  </div>
 </article>

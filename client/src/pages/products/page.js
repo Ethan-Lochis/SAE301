@@ -1,7 +1,9 @@
+// Template --> template1
+
 import { ProductData } from "../../data/product.js";
 import { ProductView } from "../../ui/product/index.js";
 import { htmlToFragment } from "../../lib/utils.js";
-import template from "./template.html?raw";
+import template1 from "./template1.html?raw";
 
 
 let M = {
@@ -33,8 +35,8 @@ V.init = function(data){
 }
 
 V.createPageFragment = function( data ){
-   // Créer le fragment depuis le template
-   let pageFragment = htmlToFragment(template);
+   // Créer le fragment depuis le template1
+   let pageFragment = htmlToFragment(template1);
    
    // Générer les produits
    let productsDOM = ProductView.dom(data);
