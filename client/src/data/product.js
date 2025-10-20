@@ -60,6 +60,12 @@ let fakeProducts = [
     }
 ]
 
+ProductData.fetchByCat = async function (cat) {
+    console.log('cat:' + cat)
+    let data = await getRequest('categories/'+cat);
+    return data
+}
+
 ProductData.fetch = async function(id){
     let data = await getRequest('products/'+id);
     return data==false ? fakeProducts.pop() : [data];

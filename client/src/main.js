@@ -2,7 +2,7 @@
 import { Router } from "./lib/router.js";
 import { AboutPage } from "./pages/about/page.js";
 import { HomePage } from "./pages/home/page.js";
-import { ProductsPage } from "./pages/products/page.js";
+import { FilteredPage } from "./pages/category/page.js";
 import { ProductDetailPage } from "./pages/productDetail/page.js";
 
 import { RootLayout } from "./layouts/root/layout.js";
@@ -17,10 +17,8 @@ router.addLayout("/", RootLayout);
 router.addRoute("/", HomePage);
 router.addRoute("/about", AboutPage);
 
-router.addRoute("/products", ProductsPage);
+router.addRoute("/categories/:id/:slug", FilteredPage);
 router.addRoute("/products/:id/:slug", ProductDetailPage);
-
-router.addRoute("/Category/:id/:slug")
 
 router.addRoute("*", The404Page);
 

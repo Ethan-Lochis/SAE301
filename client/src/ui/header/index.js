@@ -1,7 +1,7 @@
 import { htmlToFragment, genericRenderer } from "../../lib/utils.js";
 import template from "./template.html?raw";
 
-let link = `<a href="/category/{{id}}/{{name}}" data-link class="text-white px-4 py-2 rounded transition-colors duration-200 hover:bg-white/10">{{name}}</a>`;
+let link = `<a href="/categories/{{id}}/{{name}}" data-link class="text-white px-4 py-2 rounded transition-colors duration-200 hover:bg-white/10">{{name}}</a>`;
 
 function generateLinks(data) {
   const items = Array.isArray(data)

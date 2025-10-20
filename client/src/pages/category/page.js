@@ -1,9 +1,9 @@
-// Template --> template1
+// Template --> template
 
 import { ProductData } from "../../data/product.js";
 import { ProductView } from "../../ui/product/index.js";
 import { htmlToFragment } from "../../lib/utils.js";
-import template1 from "./template1.html?raw";
+import template from "./template1.html?raw";
 
 
 let M = {
@@ -20,8 +20,9 @@ C.handler_clickOnProduct = function(ev){
     }
 }
 
-C.init = async function(){
-    M.products = await ProductData.fetchAll(); 
+C.init = async function(params){
+    M.products = await ProductData.fetchByCat(params); 
+    console.log(M.products)
     return V.init( M.products );
 }
 
@@ -35,8 +36,8 @@ V.init = function(data){
 }
 
 V.createPageFragment = function( data ){
-   // Créer le fragment depuis le template1
-   let pageFragment = htmlToFragment(template1);
+   // Créer le fragment depuis le template
+   let pageFragment = htmlToFragment(template);
    
    // Générer les produits
    let productsDOM = ProductView.dom(data);
@@ -53,7 +54,7 @@ V.attachEvents = function(pageFragment) {
     return pageFragment;
 }
 
-export function ProductsPage(params) {
-    console.log("ProductsPage", params);
-    return C.init();
+export function FilteredPage(params) {
+    console.log("ProductsPage", params.slug);
+    return C.init(params.slug);
 }
