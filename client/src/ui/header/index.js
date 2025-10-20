@@ -22,7 +22,6 @@ function generateLinks(data) {
 function renderTemplateWithLinks(data) {
   // Remplacer proprement {{links}} où qu'il soit
   const output = template.replace(/{{\s*links\s*}}/g, generateLinks(data));
-  console.log("✅ Template rendu :", output);
   return output;
 }
 

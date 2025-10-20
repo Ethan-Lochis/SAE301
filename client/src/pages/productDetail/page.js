@@ -1,12 +1,15 @@
 import { ProductData } from "../../data/product.js";
+import { GalleryData } from "../../data/gallery.js";
 import { htmlToFragment } from "../../lib/utils.js";
 import { DetailView } from "../../ui/detail/index.js";
 import template from "./template.html?raw";
 
 
 let M = {
-    products: []
+    products: [],
+    gallery: []
 };
+
 
 M.getProductById = function(id){
     return M.products.find(product => product.id == id);
@@ -27,16 +30,39 @@ C.init = async function(params) {
     const productId = params.id;
     
     // Charger le produit depuis l'API
-    M.products = await ProductData.fetchAll();
-    
-    let p = M.getProductById(productId);
-    console.log("Product loaded:", p);
-    
+    M.products = await ProductData.fetch(params.id);
+    console.log(M.products)
+    M.gallery = await GalleryData.fetch(params.id);
+    let p  = M.products[0];
     return V.init(p);
 }
 
 
 let V = {};
+
+
+function generateImages(data) {
+  const fragment = document.createDocumentFragment();
+  const items = Array.isArray(data) ? data.flat() : [];
+
+  items.forEach(item => {
+    const img = document.createElement('img');
+    img.src = `/assets/Products/${encodeURI(item.url)}`; // encodeURI ici
+    img.alt = item.name ? `Image de ${item.name}` : `Produit ${item.id}`;
+    img.className = 'w-1/4 aspect-square flex-shrink-0 snap-start';
+    fragment.appendChild(img);
+  });
+
+  return fragment;
+}
+
+
+
+
+
+
+
+
 
 V.init = function(data) {
     let fragment = V.createPageFragment(data);
@@ -47,13 +73,12 @@ V.init = function(data) {
 V.createPageFragment = function(data) {
     // Créer le fragment depuis le template
     let pageFragment = htmlToFragment(template);
-    
     // Générer le composant detail
     let detailDOM = DetailView.dom(data);
-    
+    detailDOM.querySelector('#gallery').replaceWith(generateImages(M.gallery))
     // Remplacer le slot par le composant detail
     pageFragment.querySelector('slot[name="detail"]').replaceWith(detailDOM);
-    
+
     return pageFragment;
 }
 

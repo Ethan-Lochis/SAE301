@@ -22,29 +22,47 @@ let API_URL = "https://mmi.unilim.fr/~lochis1/SAE301/api/";
  *  ATTENTION : La fonction est asynchrone, donc quand on l'appelle il ne faut pas oublier "await".
  *  Exemple : let data = await getRequest(http://.../api/products);
  */
-let getRequest = async function(uri){
-
+let getRequest = async function(uri) {
     let options = {
         method: "GET"
     };
 
-    try{
-        let url = API_URL+uri;
-        var response = await fetch(API_URL+uri, options);
-        console.log(url)
-         // exécution (asynchrone) de la requête et attente de la réponse
+    try {
+        let url = API_URL + uri;
+        console.log(url);
+        var response = await fetch(url, options);
+    } catch (e) {
+        console.error("Echec de la requête : " + e);
+        return []; // ✅ Retourne un tableau vide au lieu de false → évite les crashs
     }
-    catch(e){
-        console.error("Echec de la requête : "+e); // affichage de l'erreur dans la console
-        return false;
+
+    // ✅ Gérer 404 proprement : retourne [] au lieu de false
+    if (response.status === 404) {
+        console.warn(`Ressource ${uri} introuvable (404), retour tableau vide.`);
+        return []; 
     }
-    if (response.status != 200){
-        console.error("Erreur de requête : " + response.status); // affichage de l'erreur dans la console
-        return false; // si le serveur a renvoyé une erreur, on retourne false
-    }  // si le serveur a renvoyé une erreur, on retourne false
-    let $obj = await response.json(); // extraction du json retourné par le serveur (opération asynchrone aussi)
-    return $obj; // et on retourne le tout (response.json() a déjà converti le json en objet Javscript)
-}
+
+    // ✅ Autres erreurs API → retourner []
+    if (!response.ok) {
+        console.error("Erreur de requête : " + response.status);
+        return [];
+    }
+
+    // ✅ Lire en texte brut d'abord, sinon JSON.parse crash si vide
+    let raw = await response.text();
+
+    // ✅ Si vide → retourne []
+    if (!raw) {
+        return [];
+    }
+
+    try {
+        return JSON.parse(raw);
+    } catch (e) {
+        console.error("Erreur de parsing JSON :", e, "Contenu reçu :", raw);
+        return []; // ✅ Toujours assurer un tableau en sortie
+    }
+};
 
 
 /**
