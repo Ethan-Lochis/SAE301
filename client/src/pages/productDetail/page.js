@@ -24,6 +24,18 @@ C.handler_clickOnProduct = function(ev){
         alert(`Produit ajouté au panier ! (Quand il y en aura un)`);
     }
 }
+C.handler_clickOnImage = function(ev) {
+    if (ev.target.tagName === "IMG") {
+        let imgCliqué = ev.target;
+        let imgMain = document.querySelector('#main-img'); 
+
+        // Swap des sources
+        let temp = imgMain.src;
+        imgMain.src = imgCliqué.src;
+        imgCliqué.src = temp;
+    }
+};
+
 
 C.init = async function(params) {
     // Récupérer l'ID depuis les paramètres de route
@@ -49,7 +61,7 @@ function generateImages(data) {
     const img = document.createElement('img');
     img.src = `/assets/Products/${encodeURI(item.url)}`; // encodeURI ici
     img.alt = item.name ? `Image de ${item.name}` : `Produit ${item.id}`;
-    img.className = 'w-1/4 aspect-square flex-shrink-0 snap-start';
+    img.className = 'w-1/4 aspect-square flex-shrink-0 snap-start cursor-pointer';
     fragment.appendChild(img);
   });
 
@@ -86,6 +98,8 @@ V.attachEvents = function(pageFragment) {
     // Attacher un event listener au bouton
     const addToCartBtn = pageFragment.querySelector('[data-buy]');
     addToCartBtn.addEventListener('click', C.handler_clickOnProduct);
+    let gallery = pageFragment.querySelector('#figure')
+    gallery.addEventListener('click', C.handler_clickOnImage)
     return pageFragment;
 }
 
