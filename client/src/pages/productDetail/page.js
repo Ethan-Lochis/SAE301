@@ -70,18 +70,21 @@ V.init = function (data) {
   return fragment;
 };
 
+
 V.createPageFragment = function (data) {
   // Créer le fragment depuis le template
   let pageFragment = htmlToFragment(template);
   // Générer le composant detail
-  let detailDOM = DetailView.dom(data);
+  let detailDOM = DetailView.dom(data, M.products[0].id);
   console.log(M.gallery)
-  detailDOM.querySelector("#gallery").replaceWith(generateImages(M.gallery));
+  // detailDOM.querySelector("#gallery").replaceWith(generateImages(M.gallery));
   // Remplacer le slot par le composant detail
   pageFragment.querySelector('slot[name="detail"]').replaceWith(detailDOM);
 
   return pageFragment;
 };
+
+
 
 V.attachEvents = function (pageFragment) {
   // Attacher un event listener au bouton
