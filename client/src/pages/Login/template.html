@@ -1,37 +1,4 @@
-<div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-  <h2 class="text-2xl font-bold mb-6 text-center text-bgDark">Créer un compte</h2>
-  <form id="userForm" action="https://mmi.unilim.fr/~lochis1/SAE301/api/user" method="POST" class="space-y-4">
-    <div>
-      <label for="username" class="block text-sm font-medium text-gray-700"
-        >Nom d'utilisateur</label
-      >
-      <input
-        type="text"
-        id="username"
-        name="username"
-        required
-        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-bgDark"
-      />
-    </div>
-
-    <div>
-      <label for="password" class="block text-sm font-medium text-gray-700"
-        >Mot de passe</label
-      >
-      <input
-        type="password"
-        id="password"
-        name="password"
-        required
-        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-bgDark"
-      />
-    </div>
-
-    <button
-      type="submit"
-      class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
-    >
-      Créer le compte
-    </button>
-  </form>
-</div>
+<section class="flex justify-center items-center flex-col mt-10 gap-10">
+<h1 class="text-5xl font-black">Espace de connexion</h1>
+<slot name="Formulaire"></slot>
+</section>
