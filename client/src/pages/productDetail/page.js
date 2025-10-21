@@ -64,19 +64,19 @@ function generateImages(data) {
   return fragment;
 }
 
-V.init = function (data) {
-  let fragment = V.createPageFragment(data);
+V.init = async function (data) {
+  let fragment = await V.createPageFragment(data);
   V.attachEvents(fragment);
   return fragment;
 };
 
 
-V.createPageFragment = function (data) {
+V.createPageFragment = async function (data) {
   // Créer le fragment depuis le template
   let pageFragment = htmlToFragment(template);
   // Générer le composant detail
-  let detailDOM = DetailView.dom(data, M.products[0].id);
-  console.log(M.gallery)
+  let detailDOM = await DetailView.dom(data, M.products[0].id);
+  console.log(detailDOM)
   // detailDOM.querySelector("#gallery").replaceWith(generateImages(M.gallery));
   // Remplacer le slot par le composant detail
   pageFragment.querySelector('slot[name="detail"]').replaceWith(detailDOM);

@@ -51,7 +51,7 @@ V.generateImages = function(data) {
     let img = document.createElement('img');
     img.src = `/assets/Products/${encodeURI(item.url)}`; // encodeURI ici
     img.alt = item.name ? `Image de ${item.name}` : `Produit ${item.id}`;
-    img.className = 'w-1/4 aspect-square flex-shrink-0 snap-start cursor-pointer';
+    img.className = 'h-full aspect-square flex-shrink-0 snap-start cursor-pointer';
     fragment.appendChild(img);
   });
 
