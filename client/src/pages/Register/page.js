@@ -1,6 +1,6 @@
 import template from "./template.html?raw";
 
-import { LoginView } from "../../ui/Login/index.js";
+import { RegisterView } from "../../ui/Register/index.js";
 import { htmlToFragment } from "../../lib/utils.js";
 import { AuthData } from "../../data/Auth.js";
 
@@ -8,34 +8,28 @@ let M = {};
 
 let C = {};
 
-C.sendHandler = async function(event) {
+C.sendHandler = function (event) {
+  
+
   let form = event.target.closest("form");
-
-  if (event.target.tagName === "BUTTON") {
+  if (event.target.tagName == "BUTTON") {
     event.preventDefault();
-
     let formData = new FormData(form);
+
     let username = formData.get("username");
     let password = formData.get("password");
 
+    console.log("Nom d'utilisateur :", username);
+    console.log("Mot de passe :", password);
+    console.log(formData)
     let data = {
-      param: 'loggin',
+      param: 'register',
       username: username,
       password: password,
-    };
-
-    let response = await AuthData.loggin(data);
-
-    if (response === true) {
-      window.location.href = '/';
-    } else {
-      alert("Identifiants incorrects !");
     }
-
+    AuthData.register(data)
   }
 };
-
-
 
 C.init = async function () {
   return V.init();
@@ -53,7 +47,7 @@ V.createPageFragment = function () {
   // Créer le fragment depuis le template
   let pageFragment = htmlToFragment(template);
   // Générer les produits
-  let AuthDOM = LoginView.dom();
+  let AuthDOM = RegisterView.dom();
 
   // Remplacer le slot par les produits
   pageFragment.querySelector('slot[name="Formulaire"]').replaceWith(AuthDOM);
@@ -65,6 +59,7 @@ V.attachEvents = function (pageFragment) {
   root.addEventListener("click", C.sendHandler);
 };
 
-export function AuthPage() {
+export function RegisterPage() {
   return C.init();
 }
+
