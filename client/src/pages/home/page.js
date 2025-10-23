@@ -4,6 +4,7 @@ import template from "./template.html?raw";
 import { ProductData } from "../../data/product.js";
 import { ProductView } from "../../ui/product/index.js";
 import { htmlToFragment } from "../../lib/utils.js";
+import { AuthData } from "../../data/Auth.js";
 
 let M = {
   products: [],
@@ -34,6 +35,7 @@ C.handler_clickOnProduct = function (ev) {
 C.init = async function () {
   M.products = await ProductData.fetchAll();
   console.log("produits", M.products);
+  AuthData.AmILogged()
   return V.init(M.products);
 };
 

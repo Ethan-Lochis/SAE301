@@ -4,6 +4,7 @@ import { LoginView } from "../../ui/Login/index.js";
 import { htmlToFragment } from "../../lib/utils.js";
 import { AuthData } from "../../data/Auth.js";
 
+
 let M = {};
 
 let C = {};
@@ -26,14 +27,15 @@ C.sendHandler = async function(event) {
 
     let response = await AuthData.loggin(data);
 
-    if (response === true) {
-      window.location.href = '/';
+    if (response === true || response === "true") {
+      window.router.setAuth(true); 
+      window.router.navigate('/profile');
     } else {
       alert("Identifiants incorrects !");
     }
-
   }
 };
+
 
 
 

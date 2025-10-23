@@ -34,10 +34,9 @@ C.handler_clickOnImage = function (ev) {
 };
 
 C.init = async function (params) {
-  // Récupérer l'ID depuis les paramètres de route
+
   const productId = params.id;
 
-  // Charger le produit depuis l'API
   M.products = await ProductData.fetch(params.id);
   console.log(M.products);
   M.gallery = await GalleryData.fetch(params.id);
@@ -47,23 +46,6 @@ C.init = async function (params) {
 
 let V = {};
 
-function generateImages(data) {
-  const fragment = document.createDocumentFragment();
-  const items = Array.isArray(data) ? data.flat() : [];
-
-  items.forEach((item) => {
-    const img = document.createElement("img");
-    img.src = `/assets/Products/${encodeURI(item.url)}`; // encodeURI ici
-    img.alt = item.name ? `Image de ${item.name}` : `Produit ${item.id}`;
-    img.className =
-      "w-1/4 aspect-square flex-shrink-0 snap-start cursor-pointer";
-    fragment.appendChild(img);
-  });
-  console.log('a')
-  console.log(fragment)
-  return fragment;
-}
-
 V.init = async function (data) {
   let fragment = await V.createPageFragment(data);
   V.attachEvents(fragment);
@@ -72,13 +54,12 @@ V.init = async function (data) {
 
 
 V.createPageFragment = async function (data) {
-  // Créer le fragment depuis le template
+
   let pageFragment = htmlToFragment(template);
-  // Générer le composant detail
+
   let detailDOM = await DetailView.dom(data, M.products[0].id);
   console.log(detailDOM)
-  // detailDOM.querySelector("#gallery").replaceWith(generateImages(M.gallery));
-  // Remplacer le slot par le composant detail
+
   pageFragment.querySelector('slot[name="detail"]').replaceWith(detailDOM);
 
   return pageFragment;

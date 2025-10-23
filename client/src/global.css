@@ -2,6 +2,7 @@
 
 :root {
   --var-clr-main: oklch(0.6638 0.2198 37.26);
+  --var-clr-Darkmain: oklch(44.203% 0.14408 38.184);
   --var-clr-foreground: white;
   --var-clr-secondary: oklch(30.118% 0.00003 271.152);
   --var-clr-bg-dark: oklch(0.1842 0 0);
@@ -10,6 +11,7 @@
 
 @theme {
   --color-main: var(--var-clr-main);
+  --color-Darkmain: var(--var-clr-Darkmain);
   --color-fg: var(--var-clr-foreground);
   --color-detail: var(--var-clr-secondary);
   --color-bgDark: var(--var-clr-bg-dark);

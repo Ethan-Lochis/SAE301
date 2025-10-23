@@ -2,7 +2,7 @@ import template from "./template.html?raw";
 import { htmlToFragment } from "../../lib/utils.js";
 import { HeaderView } from "../../ui/header/index.js";
 import { FooterView } from "../../ui/footer/index.js";
-import { CategoryData } from "../../data/Category.js";
+import { CategoryData } from "../../data/category.js";
 
 let categories = await CategoryData.fetchAll()
 /**

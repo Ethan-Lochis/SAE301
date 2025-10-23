@@ -8,26 +8,66 @@ let M = {};
 
 let C = {};
 
-C.sendHandler = function (event) {
-  
-
+C.sendHandler = async function (event) {
   let form = event.target.closest("form");
-  if (event.target.tagName == "BUTTON") {
+
+  if (event.target.tagName === "BUTTON") {
     event.preventDefault();
+
     let formData = new FormData(form);
+    let username = formData.get("username").trim();
+    let password = formData.get("password").trim();
+    let confirmPassword = formData.get("confirm-password").trim();
 
-    let username = formData.get("username");
-    let password = formData.get("password");
+    // Vérification du nom d'utilisateur
+    if (!username) {
+      alert("Le nom d'utilisateur ne peut pas être vide !");
+      return;
+    }
 
-    console.log("Nom d'utilisateur :", username);
-    console.log("Mot de passe :", password);
-    console.log(formData)
+    // Vérifications du mot de passe
+    if (!password) {
+      alert("Le mot de passe ne peut pas être vide !");
+      return;
+    }
+    if (password.length < 6) {
+      alert("Le mot de passe est trop court (minimum 6 caractères) !");
+      return;
+    }
+    // Vérification du pattern : au moins une lettre et un chiffre, pas d'espaces
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[^\s]{6,30}$/;
+    if (!passwordPattern.test(password)) {
+      alert(
+        "Le mot de passe doit contenir au moins une lettre et un chiffre, et pas d'espaces !"
+      );
+      return;
+    }
+
+    // Vérification de la confirmation du mot de passe
+    if (password !== confirmPassword) {
+      alert("Les mots de passe ne correspondent pas !");
+      return;
+    }
+
+    // Si tout est valide, envoi des données
     let data = {
-      param: 'register',
+      param: "register",
       username: username,
       password: password,
+    };
+
+    try {
+      let result = await AuthData.register(data);
+      if (result === true) {
+        alert("Votre compte a été créé !");
+        window.location.href = "/login";
+      } else {
+        alert("Une erreur est survenue lors de la création du compte.");
+      }
+    } catch (err) {
+      console.error("Erreur lors de l'inscription :", err);
+      alert("Impossible de créer le compte pour le moment.");
     }
-    AuthData.register(data)
   }
 };
 
@@ -62,4 +102,3 @@ V.attachEvents = function (pageFragment) {
 export function RegisterPage() {
   return C.init();
 }
-
