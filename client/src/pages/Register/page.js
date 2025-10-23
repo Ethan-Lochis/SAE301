@@ -4,13 +4,19 @@ import { RegisterView } from "../../ui/Register/index.js";
 import { htmlToFragment } from "../../lib/utils.js";
 import { AuthData } from "../../data/Auth.js";
 
-let M = {};
-
+// Module contrôleur
 let C = {};
 
+// Module vue
+let V = {};
+
+/**
+ * Gestionnaire de l'envoi du formulaire
+ */
 C.sendHandler = async function (event) {
   let form = event.target.closest("form");
 
+  // Vérifie que le clic vient d'un bouton
   if (event.target.tagName === "BUTTON") {
     event.preventDefault();
 
@@ -25,15 +31,17 @@ C.sendHandler = async function (event) {
       return;
     }
 
-    // Vérifications du mot de passe
+    // Vérification du mot de passe
     if (!password) {
       alert("Le mot de passe ne peut pas être vide !");
       return;
     }
+
     if (password.length < 6) {
       alert("Le mot de passe est trop court (minimum 6 caractères) !");
       return;
     }
+
     // Vérification du pattern : au moins une lettre et un chiffre, pas d'espaces
     const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[^\s]{6,30}$/;
     if (!passwordPattern.test(password)) {
@@ -49,7 +57,7 @@ C.sendHandler = async function (event) {
       return;
     }
 
-    // Si tout est valide, envoi des données
+    // Si tout est valide, envoi des données au serveur
     let data = {
       param: "register",
       username: username,
@@ -58,6 +66,7 @@ C.sendHandler = async function (event) {
 
     try {
       let result = await AuthData.register(data);
+
       if (result === true) {
         alert("Votre compte a été créé !");
         window.location.href = "/login";
@@ -71,34 +80,48 @@ C.sendHandler = async function (event) {
   }
 };
 
+/**
+ * Initialisation de la page
+ */
 C.init = async function () {
   return V.init();
 };
 
-let V = {};
-
+/**
+ * Initialisation de la vue
+ */
 V.init = function () {
   let fragment = V.createPageFragment();
   V.attachEvents(fragment);
   return fragment;
 };
 
+/**
+ * Création du fragment HTML de la page
+ */
 V.createPageFragment = function () {
-  // Créer le fragment depuis le template
   let pageFragment = htmlToFragment(template);
-  // Générer les produits
+
+  // Génération du formulaire via RegisterView
   let AuthDOM = RegisterView.dom();
 
-  // Remplacer le slot par les produits
+  // Remplacer le slot "Formulaire" par le formulaire réel
   pageFragment.querySelector('slot[name="Formulaire"]').replaceWith(AuthDOM);
+
   return pageFragment;
 };
 
+/**
+ * Attachement des événements sur la page
+ */
 V.attachEvents = function (pageFragment) {
   let root = pageFragment.querySelector("#userForm");
   root.addEventListener("click", C.sendHandler);
 };
 
+/**
+ * Export de la page d'inscription
+ */
 export function RegisterPage() {
   return C.init();
 }

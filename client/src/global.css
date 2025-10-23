@@ -1,5 +1,7 @@
+/* Import Tailwind */
 @import "tailwindcss";
 
+/* Définition des variables globales */
 :root {
   --var-clr-main: oklch(0.6638 0.2198 37.26);
   --var-clr-Darkmain: oklch(44.203% 0.14408 38.184);
@@ -9,6 +11,7 @@
   --var-clr-description: oklch(61.671% 0.00007 271.152);
 }
 
+/* Définition des variables pour le thème */
 @theme {
   --color-main: var(--var-clr-main);
   --color-Darkmain: var(--var-clr-Darkmain);
@@ -16,5 +19,4 @@
   --color-detail: var(--var-clr-secondary);
   --color-bgDark: var(--var-clr-bg-dark);
   --color-description: var(--var-clr-description);
-
 }

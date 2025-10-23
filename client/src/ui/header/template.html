@@ -1,9 +1,18 @@
 <header class="bg-main text-fg p-4">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <a href="/"><img src="/assets/Icons/logo--big.svg" alt="Logo steelseries" class="h-8 aspect-[7.07/1]"></a>
-        <nav style="display: flex; gap: 1rem;">
-           {{links}}
-        </nav>
-        <a href="/profile" class="h-8"><img src="../../../assets/Icons/profile-1335-svgrepo-com.svg" alt="Icone profile" class="h-full"></a>
-    </div>
+  <div class="flex justify-between items-center">
+    <!-- Logo -->
+    <a href="/">
+      <img src="../../../assets/Icons/logo--big.svg" alt="Logo steelseries" class="h-8 aspect-[7.07/1]">
+    </a>
+
+    <!-- Navigation -->
+    <nav class="flex gap-4">
+      {{links}}
+    </nav>
+
+    <!-- Profil -->
+    <a href="/profile" class="h-8">
+      <img src="../../../assets/Icons/profile-1335-svgrepo-com.svg" alt="Icone profile" class="h-full">
+    </a>
+  </div>
 </header>

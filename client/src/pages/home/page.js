@@ -1,76 +1,117 @@
 import template from "./template.html?raw";
-// Template --> template
 
 import { ProductData } from "../../data/product.js";
 import { ProductView } from "../../ui/product/index.js";
 import { htmlToFragment } from "../../lib/utils.js";
 import { AuthData } from "../../data/Auth.js";
 
+// ---------------------------------------------------------
+// Modèle (M) : gestion des données produits
+// ---------------------------------------------------------
 let M = {
-  products: [],
+    products: [],
 };
 
+// ---------------------------------------------------------
+// Contrôleur (C) : logique et gestion des événements
+// ---------------------------------------------------------
 let C = {};
 
-C.handler_clickOnCart = function (ev) {
-  if (ev.target.dataset.buy !== undefined) {
-    let id = ev.target.dataset.buy;
-    alert(`Le produit d'identifiant ${id} ? Excellent choix !`);
-  }
+/**
+ * Gestion du clic sur le bouton "Ajouter au panier"
+ */
+C.handler_clickOnCart = function (event) {
+    if (event.target.dataset.buy !== undefined) {
+        let id = event.target.dataset.buy;
+        alert(`Le produit d'identifiant ${id} ? Excellent choix !`);
+    }
 };
 
-// Gère le click sur la carte
-C.handler_clickOnProduct = function (ev) {
-    let card = ev.target.closest("[data-product]");
+/**
+ * Gestion du clic sur une carte produit
+ */
+C.handler_clickOnProduct = function (event) {
+    let card = event.target.closest("[data-product]");
+
     if (card !== null) {
-      if (ev.target.dataset.buy == undefined){
+        // Empêche d’interférer avec le bouton d’achat
+        if (event.target.dataset.buy === undefined) {
+            let id = card.dataset.product;
+            let name = card.dataset.name;
 
-        let id = card.dataset.product;
-        let name = card.dataset.name;
-        window.location.href += "products/" + id + "/" + name;
-      }
-  }
+            // Redirection vers la page du produit
+            window.location.href += "products/" + id + "/" + name;
+        }
+    }
 };
 
+/**
+ * Initialisation de la page Produits
+ */
 C.init = async function () {
-  M.products = await ProductData.fetchAll();
-  console.log("produits", M.products);
-  AuthData.AmILogged()
-  return V.init(M.products);
+    // Récupération de tous les produits depuis la base de données
+    M.products = await ProductData.fetchAll();
+    console.log("Produits :", M.products);
+
+    // Vérifie l'état d'authentification
+    AuthData.AmILogged();
+
+    // Initialise la vue
+    return V.init(M.products);
 };
 
+// ---------------------------------------------------------
+// Vue (V) : gestion du rendu HTML
+// ---------------------------------------------------------
 let V = {};
 
+/**
+ * Initialisation de la vue
+ */
 V.init = function (data) {
-  let fragment = V.createPageFragment(data);
-  V.attachEvents(fragment);
-  return fragment;
+    let fragment = V.createPageFragment(data);
+    V.attachEvents(fragment);
+    return fragment;
 };
 
+/**
+ * Création du fragment HTML de la page
+ */
 V.createPageFragment = function (data) {
-  // Créer le fragment depuis le template
-  let pageFragment = htmlToFragment(template);
-  // Générer les produits
-  let productsDOM = ProductView.dom(data);
+    // Création du fragment depuis le template HTML
+    let pageFragment = htmlToFragment(template);
 
-  // Remplacer le slot par les produits
-  pageFragment.querySelector('slot[name="products"]').replaceWith(productsDOM);
-  return pageFragment;
+    // Génération des cartes produits à partir des données
+    let productsDOM = ProductView.dom(data);
+
+    // Remplacement du slot par le contenu généré
+    pageFragment.querySelector('slot[name="products"]').replaceWith(productsDOM);
+
+    return pageFragment;
 };
 
+/**
+ * Attachement des événements sur la page
+ */
 V.attachEvents = function (pageFragment) {
-  // changement de la fonction pour le 2è enfant (slot products)
-  let root = pageFragment.children[1];
-  root.addEventListener("click", C.handler_clickOnCart);
-  root.addEventListener("click", C.handler_clickOnProduct);
-  return pageFragment;
+    // Cible le conteneur des produits (2e enfant du fragment)
+    let root = pageFragment.children[1];
+
+    // Ajoute les gestionnaires d’événements
+    root.addEventListener("click", C.handler_clickOnCart);
+    root.addEventListener("click", C.handler_clickOnProduct);
+
+    return pageFragment;
 };
 
+// ---------------------------------------------------------
+// Exports des pages
+// ---------------------------------------------------------
 export function ProductsPage(params) {
-  console.log("ProductsPage", params);
-  return C.init();
+    console.log("ProductsPage", params);
+    return C.init();
 }
 
 export function HomePage() {
-  return C.init();
+    return C.init();
 }

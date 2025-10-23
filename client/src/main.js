@@ -22,29 +22,31 @@ window.router = new Router("app");
 // Définition des layouts
 window.router.addLayout("/", RootLayout);
 
-// Définition des routes
+// Définition des routes publiques
 window.router.addRoute("/", HomePage);
 window.router.addRoute("/about", AboutPage);
 window.router.addRoute("/login", AuthPage);
 window.router.addRoute("/register", RegisterPage);
 
+// Définition des routes dynamiques
 window.router.addRoute("/categories/:id/:slug", FilteredPage);
 window.router.addRoute("/products/:id/:slug", ProductDetailPage);
 
+// Définition des routes protégées (requièrent une authentification)
 window.router.addRoute("/profile", ProfilePage, { requireAuth: true });
 
-// Route 404
+// Route 404 (page non trouvée)
 window.router.addRoute("*", The404Page);
 
-// Vérifie la session côté serveur avant de démarrer le routeur
-let auth = await AuthData.AmILogged()
-if ( auth.auth === true || auth.auth === "true"){
-    window.router.setAuth(true);
-    console.log('on est connecté')
-    window.router.start();
-}
-else{
-    window.router.setAuth(false);
-    console.log('on est pas connecté')
-    window.router.start();
+// Vérification de la session côté serveur avant de démarrer le routeur
+let auth = await AuthData.AmILogged();
+
+if (auth.auth === true || auth.auth === "true") {
+  window.router.setAuth(true);
+  console.log("Utilisateur connecté");
+  window.router.start();
+} else {
+  window.router.setAuth(false);
+  console.log("Utilisateur non connecté");
+  window.router.start();
 }

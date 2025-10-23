@@ -4,69 +4,94 @@ import { LoginView } from "../../ui/Login/index.js";
 import { htmlToFragment } from "../../lib/utils.js";
 import { AuthData } from "../../data/Auth.js";
 
-
-let M = {};
-
+// ---------------------------------------------------------
+// Contrôleur (C) : gère la logique de la page de connexion
+// ---------------------------------------------------------
 let C = {};
 
-C.sendHandler = async function(event) {
-  let form = event.target.closest("form");
+/**
+ * Gestion de la soumission du formulaire de connexion
+ */
+C.sendHandler = async function (event) {
+    let form = event.target.closest("form");
 
-  if (event.target.tagName === "BUTTON") {
-    event.preventDefault();
+    // Vérifie que le clic provient bien d’un bouton
+    if (event.target.tagName === "BUTTON") {
+        event.preventDefault();
 
-    let formData = new FormData(form);
-    let username = formData.get("username");
-    let password = formData.get("password");
+        // Récupération des données du formulaire
+        let formData = new FormData(form);
+        let username = formData.get("username");
+        let password = formData.get("password");
 
-    let data = {
-      param: 'loggin',
-      username: username,
-      password: password,
-    };
+        // Préparation des données à envoyer à l’API
+        let data = {
+            param: "loggin",
+            username: username,
+            password: password,
+        };
 
-    let response = await AuthData.loggin(data);
+        // Appel à l’API d’authentification
+        let response = await AuthData.loggin(data);
 
-    if (response === true || response === "true") {
-      window.router.setAuth(true); 
-      window.router.navigate('/profile');
-    } else {
-      alert("Identifiants incorrects !");
+        // Si les identifiants sont valides
+        if (response === true || response === "true") {
+            window.router.setAuth(true);
+            window.router.navigate("/profile");
+        } else {
+            alert("Identifiants incorrects !");
+        }
     }
-  }
 };
 
-
-
-
+/**
+ * Initialisation de la page de connexion
+ */
 C.init = async function () {
-  return V.init();
+    return V.init();
 };
 
+// ---------------------------------------------------------
+// Vue (V) : gère le rendu de la page de connexion
+// ---------------------------------------------------------
 let V = {};
 
+/**
+ * Initialisation de la vue
+ */
 V.init = function () {
-  let fragment = V.createPageFragment();
-  V.attachEvents(fragment);
-  return fragment;
+    let fragment = V.createPageFragment();
+    V.attachEvents(fragment);
+    return fragment;
 };
 
+/**
+ * Création du fragment HTML à partir du template
+ */
 V.createPageFragment = function () {
-  // Créer le fragment depuis le template
-  let pageFragment = htmlToFragment(template);
-  // Générer les produits
-  let AuthDOM = LoginView.dom();
+    // Crée un fragment à partir du template HTML
+    let pageFragment = htmlToFragment(template);
 
-  // Remplacer le slot par les produits
-  pageFragment.querySelector('slot[name="Formulaire"]').replaceWith(AuthDOM);
-  return pageFragment;
+    // Génère le formulaire via LoginView
+    let AuthDOM = LoginView.dom();
+
+    // Remplace le slot "Formulaire" par le formulaire réel
+    pageFragment.querySelector('slot[name="Formulaire"]').replaceWith(AuthDOM);
+
+    return pageFragment;
 };
 
+/**
+ * Attachement des événements au DOM
+ */
 V.attachEvents = function (pageFragment) {
-  let root = pageFragment.querySelector("#userForm");
-  root.addEventListener("click", C.sendHandler);
+    let root = pageFragment.querySelector("#userForm");
+    root.addEventListener("click", C.sendHandler);
 };
 
+// ---------------------------------------------------------
+// Export de la page de connexion
+// ---------------------------------------------------------
 export function AuthPage() {
-  return C.init();
+    return C.init();
 }
