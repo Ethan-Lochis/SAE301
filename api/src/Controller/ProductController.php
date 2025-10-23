@@ -1,10 +1,8 @@
 <?php
+
 require_once "src/Controller/EntityController.php";
 require_once "src/Repository/ProductRepository.php" ;
 
-
-// This class inherits the jsonResponse method  and the $cnx propertye from the parent class Controller
-// Only the process????Request methods need to be (re)defined.
 
 class ProductController extends EntityController {
 

@@ -8,7 +8,8 @@
  *  Chaque propriété est ensuite accessible en lecture via une méthode "getter"
  * 
  */
-class HttpRequest {
+class HttpRequest
+{
     private string $method; // métho de la requête (GET, POST, DELETE, PATCH, PUT)
     private string $ressources = "none"; // type de ressource ciblée, extrait de l'URI (par exemple "products"...)
     private string $id = ""; // identifiant de la ressource (pas forcément défini, notament en POST ou en GET)
@@ -21,7 +22,8 @@ class HttpRequest {
      *  Le constructeur analyse les données de la requête pour initialiser 
      *  toutes les propriétés
      */
-    public function __construct(){
+    public function __construct()
+    {
         // utilisation de valeurs par défaut si les indices $_SERVER ne sont pas définis
         $this->method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
@@ -31,25 +33,32 @@ class HttpRequest {
         $tmp = $tmp[0];
         $tmp = explode("/", $tmp);
 
-        while( count($tmp)>1 && $tmp[1] != "api"){
+        while (count($tmp) > 1 && $tmp[1] != "api") {
             array_shift($tmp);
         }
-       
+
         // selon la convention choisie, une requête est valide si elle 
         // est de la forme /api/ressources/{id} (plus éventuellement des paramètres)
         // donc $tmp doit être de la forme ['', 'api', 'ressources'] ou ['', 'api', 'ressources', {id}]
-        if ($tmp[1]=="api" && count($tmp)>2){
+        if ($tmp[1] == "api" && count($tmp) > 2) {
             $this->ressources = $tmp[2];
-            if (count($tmp)==4 && $tmp[3]!="")
+            if (count($tmp) == 4 && $tmp[3] != "")
                 $this->id = $tmp[3];
         }
         $this->params = $_REQUEST ?? [];
         $this->json = (string) file_get_contents("php://input"); // lecture des données reçues au format json (s'il y en a)
-        
-        if ($this->method == "POST"){
-            if (isset($_FILES) && count($_FILES)>0){
-                foreach($_FILES as $key => $value){
-                    if ($value['error'] == UPLOAD_ERR_OK){
+        if (!empty($this->json)) {
+            $decoded = json_decode($this->json, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $this->params = array_merge($this->params ?? [], $decoded);
+            }
+        }
+
+
+        if ($this->method == "POST") {
+            if (isset($_FILES) && count($_FILES) > 0) {
+                foreach ($_FILES as $key => $value) {
+                    if ($value['error'] == UPLOAD_ERR_OK) {
                         $this->params[$key] = $value;
                         $this->includeFiles = true;
                     }
@@ -60,7 +69,7 @@ class HttpRequest {
 
     /**
      * Get the value of ressources
-     */ 
+     */
     public function getRessources(): string
     {
         return $this->ressources;
@@ -69,7 +78,7 @@ class HttpRequest {
     /**
      * Get the value of the requested ressources id 
      * return "none" if no id was given
-     */ 
+     */
     public function getId(): string
     {
         return $this->id;
@@ -77,7 +86,7 @@ class HttpRequest {
 
     /**
      * Get the value of params
-     */ 
+     */
     public function getParam(string $name): mixed
     {
         // retourne la valeur du paramètre s'il existe, sinon null
@@ -86,7 +95,7 @@ class HttpRequest {
 
     /**
      * Get the value of method
-     */ 
+     */
     public function getMethod(): string
     {
         return $this->method;
@@ -94,7 +103,7 @@ class HttpRequest {
 
     /**
      * Get the value of json
-     */ 
+     */
     public function getJson(): string
     {
         return $this->json;

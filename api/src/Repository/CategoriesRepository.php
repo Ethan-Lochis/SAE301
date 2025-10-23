@@ -1,11 +1,14 @@
 <?php
 
-require_once("src/Repository/EntityRepository.php");
-require_once("src/Class/Product.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+require_once("src/Repository/CategoriesRepository.php");
+require_once("src/Class/Categories.php");
 
 
 /**
- *  Classe ProductRepository
+ *  Classe CategoryRepository
  * 
  *  Cette classe représente le "stock" de Product.
  *  Toutes les opérations sur les Product doivent se faire via cette classe 
@@ -16,7 +19,7 @@ require_once("src/Class/Product.php");
  *  c'est utile !
  *  
  */
-class ProductRepository extends EntityRepository
+class CategoryRepository extends EntityRepository
 {
 
     public function __construct()
@@ -25,7 +28,7 @@ class ProductRepository extends EntityRepository
         parent::__construct();
     }
 
-    public function find($id): ?Product
+    public function find($id): ?Category
     {
         /*
             La façon de faire une requête SQL ci-dessous est "meilleur" que celle vue
@@ -33,7 +36,7 @@ class ProductRepository extends EntityRepository
             permet de vérifier que la valeur transmise est "safe" et de se prémunir
             d'injection SQL.
         */
-        $requete = $this->cnx->prepare("select * from Product where id=:value"); // prepare la requête SQL
+        $requete = $this->cnx->prepare("SELECT * FROM Product WHERE category_id = :value;"); // prepare la requête SQL
         $requete->bindParam(':value', $id); // fait le lien entre le "tag" :value et la valeur de $id
         $requete->execute(); // execute la requête
         $answer = $requete->fetch(PDO::FETCH_OBJ);
@@ -44,26 +47,19 @@ class ProductRepository extends EntityRepository
         $p = new Product($answer->id);
         $p->setName($answer->name);
         $p->setIdcategory($answer->category);
-        $p->setPrice($answer->price);
-        $p->setDescription($answer->description);
-        $p->setUrl($answer->url);
         return $p;
     }
 
     public function findAll(): array
     {
-        $requete = $this->cnx->prepare("select * from Product");
+        $requete = $this->cnx->prepare("select * from Category");
         $requete->execute();
         $answer = $requete->fetchAll(PDO::FETCH_OBJ);
 
         $res = [];
         foreach ($answer as $obj) {
-            $p = new Product($obj->id);
+            $p = new Category($obj->id);
             $p->setName($obj->name);
-            $p->setIdcategory($obj->category);
-            $p->setPrice($obj->price);
-            $p->setDescription($obj->description);
-            $p->setUrl($obj->url);
             array_push($res, $p);
         }
 
@@ -72,10 +68,11 @@ class ProductRepository extends EntityRepository
 
     public function findAllByCategory($cat): array
     {
-        $requete = $this->cnx->prepare("SELECT p.* FROM Product p JOIN Category c ON p.category = c.id WHERE c.name = ':value';");
+        $requete = $this->cnx->prepare("SELECT p.* FROM Product p JOIN Category c ON p.category = c.id WHERE c.name = :value");
         $requete->bindParam(':value', $cat);
         $requete->execute();
         $answer = $requete->fetchAll(PDO::FETCH_OBJ);
+
 
         $res = [];
         foreach ($answer as $obj) {
@@ -90,7 +87,6 @@ class ProductRepository extends EntityRepository
 
         return $res;
     }
-
 
     public function save($product)
     {
@@ -121,7 +117,7 @@ class ProductRepository extends EntityRepository
         // Not implemented ! TODO when needed !
         return false;
     }
-
     public function findImages($id){}
+
 
 }

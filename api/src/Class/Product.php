@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once ('Entity.php');
 
 /**
@@ -15,7 +18,9 @@ class Product extends Entity {
     private int $id; // id du produit
     private ?string $name = null; // nom du produit (nullable pour éviter erreur si non initialisé)
     private ?int $idcategory = null; // id de la catégorie du produit (nullable)
-
+    private ?float $Price = null;// Prix du produit
+    private ?string $description = null;
+    private ?string $url = null;
     public function __construct(int $id){
         $this->id = $id;
     }
@@ -55,7 +60,10 @@ class Product extends Entity {
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "category" => $this->idcategory
+            "category" => $this->idcategory,
+            "price" => $this->Price,
+            "description" => $this->description,
+            "url" => $this->url,
         ];
     }
 
@@ -105,6 +113,58 @@ class Product extends Entity {
     public function setId(int $id): self
     {
         $this->id = $id;
+        return $this;
+    }
+
+
+
+
+    public function getPrice(): ?float
+    {
+        return $this->Price;
+    }
+
+    /**
+     * Set the value of Price
+     *
+     * @return  self
+     */ 
+    public function setPrice(float $Price): self
+    {
+        $this->Price = $Price;
+        return $this;
+    }
+
+
+    public function getdescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set the value of description
+     *
+     * @return  self
+     */ 
+    public function setdescription(string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set the value of url
+     *
+     * @return  self
+     */ 
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
         return $this;
     }
 }
