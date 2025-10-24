@@ -2,17 +2,20 @@
   <div class="flex justify-between items-center">
     <!-- Logo -->
     <a href="/">
-      <img src="../../../assets/Icons/logo--big.svg" alt="Logo steelseries" class="h-8 aspect-[7.07/1]">
+      <img src="../../../assets/Icons/logo--small.svg" alt="Logo small" class="h-6 sm:hidden">
+
+  <!-- Image pour écrans sm et plus -->
+  <img src="../../../assets/Icons/logo--big.svg" alt="Logo big" class="hidden sm:block h-8">
     </a>
 
     <!-- Navigation -->
-    <nav class="flex gap-4">
+    <nav class="flex sm:gap-4">
       {{links}}
     </nav>
 
     <!-- Profil -->
     <a href="/profile" class="h-8">
-      <img src="../../../assets/Icons/profile-1335-svgrepo-com.svg" alt="Icone profile" class="h-full">
+      <img src="../../../assets/Icons/profile-1335-svgrepo-com.svg" alt="Icone profile" class="h-full aspect-square">
     </a>
   </div>
 </header>

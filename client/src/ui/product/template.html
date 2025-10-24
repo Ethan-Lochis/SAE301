@@ -1,28 +1,23 @@
+
+<!-- usage shadow pour bordure interne  -->
 <article
   data-product="{{id}}"
   data-name="{{name}}"
-  class="flex flex-col justify-between rounded-lg bg-bgDark shadow-md overflow-hidden p-6 transition-shadow hover:shadow-[inset_0_0_0_2px] hover:shadow-detail max-w-[450px] min-w-[250px] flex-shrink"
+  class="flex flex-col justify-between rounded-lg bg-bgDark shadow-md overflow-hidden p-6 transition-shadow hover:shadow-[inset_0_0_0_2px] hover:shadow-detail"
 >
-  <div
-    class="max-h-[381px] flex items-center justify-center overflow-hidden bg-detail p-8 flex-shrink"
-  >
-    <img
-      src="../../../assets/Products/{{url}}"
-      alt="{{name}}"
-      class="max-w-full max-h-full object-contain"
-    />
+  <!-- <span class="block mb-2 text-sm font-medium text-gray-500">ID: {{id}}</span> -->
+  <div class="w-full h-[381px] flex items-center justify-center overflow-hidden bg-detail p-8 ">
+    <img src="../../../assets/Products/{{url}}" alt="{{name}}" class="w-full h-full object-contain" />
   </div>
-
-  <div class="flex-shrink">
-    <h2 class="text-xl font-bold text-fg">{{name}}</h2>
-    <h3 class="pb-4 text-base font-bold text-fg">{{price}}€</h3>
+  <div>
+    <h3 class="text-xl font-bold text-fg">{{name}}</h3>
+    <h2 class="pb-4 text-base font-bold text-fg">{{price}}€</h2>
   </div>
-
-  <ul class="text-description flex-shrink">
+  <ul class="text-description">
     <li>{{description}}</li>
   </ul>
 
-  <div class="flex justify-end mt-4 flex-shrink">
+  <div class="flex justify-end mt-4">
     <button data-buy="{{id}}" class="rounded-lg bg-main p-4 cursor-pointer">
       <img data-buy="{{id}}" src="/assets/Icons/Cart.svg" alt="Icone panier" />
     </button>

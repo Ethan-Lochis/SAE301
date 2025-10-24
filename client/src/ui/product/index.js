@@ -3,7 +3,7 @@ import template from "./template.html?raw";
 
 let ProductView = {
   html: function (data) {
-    let htmlString = '<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.5rem;">';
+    let htmlString = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">';
     for (let obj of data) {
       htmlString  += genericRenderer(template, obj);
     }
