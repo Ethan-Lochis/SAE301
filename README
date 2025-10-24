@@ -1,10 +1,43 @@
-Importer la base (minimaliste) SAE301 dans votre serveur de base de données.
+# Click & Collect - SteelSeries Style
 
-Modifier les informations de connexion à la base dans api/class/Controller.php
+## Description
 
-Héberger l'api back sur mmi.unilim.fr
+Site de **Click & Collect** inspiré du style graphique de SteelSeries.  
+Permet aux utilisateurs de naviguer parmi les produits, gérer leur compte, et passer des commandes pour retrait en magasin.  
+Le site utilise une **interface dynamique** et des **requêtes API** pour gérer les produits et les comptes utilisateur.
 
-Front : 
+## Fonctionnalités
 
-    - dev : npm i / npm run dev en local depuis votre machine
-    - prod : npm run build / puis hébergement des fichiers statiques (dist/) sur mmi.unilim.fr
+### Gestion des produits
+
+- Affichage dynamique des produits via API.
+- Filtrage et recherche par catégorie ou nom.
+- Mise en avant des nouveautés et promotions.
+
+### Gestion des comptes utilisateurs
+
+- Création et modification de compte.
+- Changement de nom d’utilisateur et mot de passe.
+- Validation côté client : mot de passe minimum 6 caractères, au moins une lettre et un chiffre.
+- Connexion sécurisée avec sessions PHP.
+
+### Interface et style
+
+- Inspiré du design SteelSeries : palette sombre, boutons interactifs, effets au survol.
+- Responsive design pour desktop et mobile.
+
+### Requêtes API
+
+- `GET /products` : récupérer les produits
+- `POST /users` : création de compte
+- `PATCH /users` : modification de compte
+- `DELETE /users/:id` : suppression d’un compte
+- Requêtes asynchrones avec `fetch` et JSON
+
+## Technologies utilisées
+
+- **Frontend** : HTML5, CSS3, JavaScript (Vanilla JS)
+- **Backend** : PHP, PDO
+- **Base de données** : MySQL
+- **Authentification** : Sessions PHP
+- **API** : RESTful endpoints pour interactions dynamiques
