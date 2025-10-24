@@ -1,10 +1,63 @@
-Importer la base (minimaliste) SAE301 dans votre serveur de base de données.
+Click & Collect - SteelSeries Style
+Description
 
-Modifier les informations de connexion à la base dans api/class/Controller.php
+Ce projet est un site de Click & Collect inspiré du style graphique de SteelSeries. Il permet aux utilisateurs de naviguer parmi les produits, gérer leur compte, et passer des commandes en ligne pour retrait en magasin.
 
-Héberger l'api back sur mmi.unilim.fr
+Le site est conçu pour être dynamique, avec des interactions côté client et des requêtes vers une API pour récupérer et mettre à jour les données.
 
-Front : 
+Fonctionnalités
+Gestion des produits
 
-    - dev : npm i / npm run dev en local depuis votre machine
-    - prod : npm run build / puis hébergement des fichiers statiques (dist/) sur mmi.unilim.fr
+Affichage dynamique des produits depuis la base de données via l’API.
+
+Filtrage et recherche par catégorie ou nom.
+
+Mise en avant des nouveautés ou promotions.
+
+Gestion des comptes utilisateurs
+
+Création de compte avec validation minimale.
+
+Modification du profil :
+
+Changement de nom d’utilisateur
+
+Changement du mot de passe avec validation (minimum 6 caractères, au moins une lettre et un chiffre)
+
+Connexion et authentification sécurisée avec gestion de session.
+
+Interactions et style
+
+Interface graphique inspirée de SteelSeries :
+
+Palette de couleurs sombre et moderne.
+
+Boutons et interactions avec hover et feedback visuel.
+
+Responsiveness et ergonomie optimisée pour desktop et mobile.
+
+Requêtes API
+
+Gestion complète des produits et utilisateurs via des requêtes API REST :
+
+GET /products → récupération des produits
+
+POST /users → création de compte
+
+PATCH /users → modification du compte
+
+DELETE /users/:id → suppression d’un compte
+
+Requêtes asynchrones avec fetch, JSON pour la communication.
+
+Technologies utilisées
+
+Frontend : HTML5, CSS3, JavaScript (Vanilla JS)
+
+Backend : PHP, PDO pour la base de données
+
+Base de données : MySQL
+
+Authentification : Sessions PHP pour la gestion sécurisée des utilisateurs
+
+API : RESTful endpoints pour l’interaction dynamique avec le frontend
