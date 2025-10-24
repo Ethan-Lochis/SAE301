@@ -1,9 +1,38 @@
-<footer class="mt-20 w-full p-6 bg-main">
-  <h1 class="mb-6 text-4xl font-bold text-bgDark">À propos</h1>
-  <p class="text-lg text-bgDark">
-    Site web de la SAE301 réalisé par : Ethan LOCHIS
-  </p>
-  <p class="mb-6 text-lg text-bgDark">
-    MMI Limoges - 10/2025
-  </p>
+<footer class="mt-20 w-full p-10 bg-detail text-white">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+    
+    <!-- Section À propos -->
+    <div>
+      <h2 class="mb-4 text-3xl font-bold text-main">À propos</h2>
+      <p class="text-lg text-gray-300 mb-2">
+        Site web de la SAE301 réalisé par : <span class="font-semibold">Ethan LOCHIS</span>
+      </p>
+      <p class="text-lg text-gray-300">
+        MMI Limoges - 10/2025
+      </p>
+    </div>
+
+    <!-- Section Pages utiles -->
+    <div>
+      <h3 class="mb-4 text-2xl font-semibold text-main">Pages utiles</h3>
+      <ul class="space-y-2">
+        <li>
+          <a href="/" data-link class="hover:text-main transition-colors">- Page d'accueil</a>
+        </li>
+        <li>
+          <a href="/login" data-link class="hover:text-main transition-colors">- Page de connexion</a>
+        </li>
+        <li>
+          <a href="/register" data-link class="hover:text-main transition-colors">- Page création de compte</a>
+        </li>
+        <li>
+          <a href="/profile" data-link class="hover:text-main transition-colors">- Page profile</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mt-10 border-t border-main pt-6 text-center text-description text-sm">
+    &copy; 2025 Ethan LOCHIS. Tous droits réservés.
+  </div>
 </footer>
