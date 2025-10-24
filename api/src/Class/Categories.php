@@ -2,76 +2,59 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
-require_once ('Entity.php');
+require_once('Entity.php');
 
 /**
- *  Class Category
+ * Class Category
  * 
- *  Représente un produit avec uniquement 3 propriétés (id, name, category)
- * 
- *  Implémente l'interface JsonSerializable 
- *  qui oblige à définir une méthode jsonSerialize. Cette méthode permet de dire comment les objets
- *  de la classe Category doivent être converti en JSON. Voire la méthode pour plus de détails.
+ * Représente un produit avec uniquement 3 propriétés (id, name, category)
+ * Implémente l'interface JsonSerializable pour pouvoir convertir un objet Category en JSON.
  */
-class Category extends Entity {
-    private int $id; // id du produit
-    private ?string $name = null; // nom du produit (nullable pour éviter erreur si non initialisé)
-    public function __construct(int $id){
+class Category extends Entity implements JsonSerializable
+{
+    private int $id;           // ID du produit
+    private ?string $name = null; // Nom du produit (nullable pour éviter erreur si non initialisé)
+
+    /**
+     * Constructeur
+     */
+    public function __construct(int $id)
+    {
         $this->id = $id;
     }
 
     /**
-     * Get the value of id
-     */ 
+     * Récupère l'ID du produit
+     */
     public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     *  Define how to convert/serialize a Category to a JSON format
-     *  This method will be automatically invoked by json_encode when apply to a Category
-     * 
-     *  En français : On sait qu'on aura besoin de convertir des Category en JSON pour les
-     *  envoyer au client. La fonction json_encode sait comment convertir en JSON des données
-     *  de type élémentaire. A savoir : des chaînes de caractères, des nombres, des booléens
-     *  des tableaux ou des objets standards (stdClass). 
-     *  Mais json_encode ne saura pas convertir un objet de type Category dont les propriétés sont
-     *  privées de surcroit. Sauf si on définit la méthode JsonSerialize qui doit retourner une
-     *  représentation d'un Category dans un format que json_encode sait convertir (ici un tableau associatif)
-     * 
-     *  Le fait que Category "implémente" l'interface JsonSerializable oblige à définir la méthode
-     *  JsonSerialize et permet à json_encode de savoir comment convertir un Category en JSON.
-     * 
-     *  Parenthèse sur les "interfaces" : Une interface est une classe (abstraite en générale) qui
-     *  regroupe un ensemble de méthodes. On dit que "une classe implémente une interface" au lieu de dire 
-     *  que "une classe hérite d'une autre" uniquement parce qu'il n'y a pas de propriétés dans une "classe interface".
-     * 
-     *  Voir aussi : https://www.php.net/manual/en/class.jsonserializable.php
-     *  
+     * Définit l'ID du produit
+     *
+     * @return self
      */
-    // Implémentation correcte de JsonSerializable : méthode nommée jsonSerialize()
-    public function jsonSerialize(): mixed{
-        return [
-            "id" => $this->id,
-            "name" => $this->name,
-        ];
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
-     * Get the value of name
-     */ 
+     * Récupère le nom du produit
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * Set the value of name
+     * Définit le nom du produit
      *
-     * @return  self
-     */ 
+     * @return self
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -79,14 +62,14 @@ class Category extends Entity {
     }
 
     /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId(int $id): self
+     * Implémentation de JsonSerializable
+     * Retourne un tableau associatif que json_encode peut convertir en JSON
+     */
+    public function jsonSerialize(): mixed
     {
-        $this->id = $id;
-        return $this;
+        return [
+            "id" => $this->id,
+            "name" => $this->name,
+        ];
     }
-
 }

@@ -81,7 +81,8 @@ class UserController extends EntityController
                 if (session_status() !== PHP_SESSION_ACTIVE) {
                     session_start();
                 }
-                session_regenerate_id();;
+                session_regenerate_id();
+                ;
                 $_SESSION['username'] = $entity->getUsername();
                 $_SESSION['auth'] = 'true';
             }
@@ -118,8 +119,45 @@ class UserController extends EntityController
      */
     protected function processPatchRequest(HttpRequest $request)
     {
-        return false; // À remplacer par votre implémentation
+        $json = $request->getJson();
+        $obj = json_decode($json);
+
+        $parameter = $obj->param ?? null;
+
+        $ok = false;
+
+        if ($parameter === 'updateUsername') {
+            if (!isset($obj->username) || $obj->username === '') {
+                echo 'username manquant ou invalide';
+                return;
+            }
+            $entity = new User($obj->id ?? 0);
+            $entity->setUsername($obj->username);
+            $ok = $this->repository->update($entity);
+
+        } elseif ($parameter === 'updatePWD') {
+            // Ici on récupère le mot de passe côté serveur
+            $passwordField = $obj->password ?? $obj->passWord ?? null; // accepte passWord ou password
+            if (!$passwordField || $passwordField === '') {
+                echo 'mot de passe manquant ou invalide';
+                return;
+            }
+            $entity = new User($obj->id ?? 0);
+            $entity->setPassword($passwordField);
+            var_dump($entity);
+            $ok = $this->repository->updatePWD($entity);
+
+        } else {
+            echo 'pas de paramètre valide';
+            return;
+        }
+
+        echo $ok ? 'true' : 'false';
     }
+
+
+
+
 
     /**
      * Traite les requêtes PUT

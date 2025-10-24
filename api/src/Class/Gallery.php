@@ -9,14 +9,18 @@ require_once 'Entity.php';
  * Class Gallery
  * 
  * Représente un objet Gallery
- * 
  * Implémente l'interface JsonSerializable pour permettre la conversion en JSON
  */
-class Gallery extends Entity {
-    private int $id;
-    private string $url;
+class Gallery extends Entity implements JsonSerializable
+{
+    private int $id;     // ID de l'image
+    private string $url; // URL de l'image
 
-    public function __construct(int $id) {
+    /**
+     * Constructeur
+     */
+    public function __construct(int $id)
+    {
         $this->id = $id;
     }
 
@@ -25,49 +29,50 @@ class Gallery extends Entity {
      * 
      * @return mixed Tableau associatif représentant l'objet
      */
-    public function jsonSerialize(): mixed {
+    public function jsonSerialize(): mixed
+    {
         return [
-            "id" => $this->id,
+            "id"  => $this->id,
             "url" => $this->url,
         ];
     }
 
     /**
-     * Get the value of id
+     * Récupère l'ID de la galerie
      */
-    public function getId(): int {
+    public function getId(): int
+    {
         return $this->id;
     }
 
     /**
-     * Set the value of id
+     * Définit l'ID de la galerie
+     *
+     * @return self
      */
-    public function setIdGallery(int $id): self {
+    public function setIdGallery(int $id): self
+    {
         $this->id = $id;
         return $this;
     }
 
-     public function getURL(): string {
+    /**
+     * Récupère l'URL de l'image
+     */
+    public function getURL(): string
+    {
         return $this->url;
     }
 
     /**
-     * Set the value of url
+     * Définit l'URL de l'image
+     *
+     * @return self
      */
-    public function setURL(string $url): self {
+    public function setURL(string $url): self
+    {
         $this->url = $url;
         return $this;
     }
 
-    // TODO: Ajouter vos getters et setters ici
-    // Exemple :
-    //
-    // public function getName(): ?string {
-    //     return $this->name;
-    // }
-    //
-    // public function setName(string $name): self {
-    //     $this->name = $name;
-    //     return $this;
-    // }
 }

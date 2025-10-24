@@ -7,8 +7,6 @@ require_once "src/Controller/EntityController.php";
 require_once "src/Repository/CategoriesRepository.php";
 
 
-// This class inherits the jsonResponse method  and the $cnx propertye from the parent class Controller
-// Only the process????Request methods need to be (re)defined.
 
 class DisconnectController extends EntityController
 {
@@ -23,10 +21,8 @@ class DisconnectController extends EntityController
 
     protected function processGetRequest(HttpRequest $request)
     {
-        $_SESSION = [];  //session_unset() equivalent qui efface le contenu
-        // antidater cookie
+        $_SESSION = [];
         setcookie(session_name(), '', time() - 15);
-        // suppression session
         session_destroy();
     }
 

@@ -160,23 +160,82 @@ class UserRepository extends EntityRepository
      */
     public function update($entity): bool
     {
-        // TODO: Implémenter la requête UPDATE
-        // Exemple :
-        /*
-        $requete = $this->cnx->prepare(
-            "UPDATE User SET name=:name, description=:description WHERE id=:id"
-        );
-        $id = $entity->getId();
-        $name = $entity->getName();
-        $description = $entity->getDescription();
-        $requete->bindParam(':id', $id);
-        $requete->bindParam(':name', $name);
-        $requete->bindParam(':description', $description);
-        return $requete->execute();
-        */
+        // Vérifie que l'objet a bien un nouveau username
+        $newUsername = $entity->getUsername();
+        if (!$newUsername) {
+            return false;
+        }
 
-        return false; // À remplacer par votre implémentation
+        // Vérifie que le cookie de session contient le username actuel
+        if (!isset($_SESSION['username'])) {
+            return false; // Utilisateur non connecté ou session absente
+        }
+        $currentUsername = $_SESSION['username'];
+
+        try {
+            // Prépare la requête SQL pour mettre à jour le username
+            $requete = $this->cnx->prepare(
+                "UPDATE User SET username = :newUsername WHERE username = :currentUsername"
+            );
+
+            // Bind des paramètres
+            $requete->bindParam(':newUsername', $newUsername);
+            $requete->bindParam(':currentUsername', $currentUsername);
+
+            // Exécution de la requête
+            $ok = $requete->execute();
+
+            // Si la mise à jour a réussi, on met à jour le cookie de session
+            if ($ok) {
+                $_SESSION['username'] = $newUsername;
+            }
+
+            return $ok;
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la mise à jour du username : " . $e->getMessage());
+            return false;
+        }
     }
+
+    public function updatePWD($entity): bool
+{
+    // Vérifie que l'objet a bien un nouveau mot de passe
+    $newPassword = $entity->getPassword();
+    if (!$newPassword) {
+        return false;
+    }
+
+    // Vérifie que le cookie de session contient le username actuel
+    if (!isset($_SESSION['username'])) {
+        return false; // Utilisateur non connecté ou session absente
+    }
+    $currentUsername = $_SESSION['username'];
+    var_dump($newPassword);
+
+    // Hachage du mot de passe avant stockage
+    $hashedPassword = hash('sha256', $newPassword);
+
+    try {
+        // Prépare la requête SQL pour mettre à jour le mot de passe
+        $requete = $this->cnx->prepare(
+            "UPDATE User SET password = :newPassword WHERE username = :currentUsername"
+        );
+
+        // Bind des paramètres
+        $requete->bindParam(':newPassword', $hashedPassword);
+        $requete->bindParam(':currentUsername', $currentUsername);
+
+        // Exécution de la requête
+        $ok = $requete->execute();
+        var_dump($ok);
+        return $ok;
+    } catch (PDOException $e) {
+        error_log("Erreur lors de la mise à jour du mot de passe : " . $e->getMessage());
+        return false;
+    }
+}
+
+
 
     // TODO: Ajouter vos méthodes de recherche personnalisées ici
     // Exemple :
