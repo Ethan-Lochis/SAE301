@@ -51,13 +51,15 @@ C.handler_clickOnProduct = function (event) {
 C.init = async function () {
     // Récupération de tous les produits depuis la base de données
     M.products = await ProductData.fetchAll();
-    console.log("Produits :", M.products);
+    let user = await AuthData.info();
+    let userName = "bonjour " + (user.username || "");
+    M.username = userName
 
     // Vérifie l'état d'authentification
     AuthData.AmILogged();
 
     // Initialise la vue
-    return V.init(M.products);
+    return V.init(M);
 };
 
 // ---------------------------------------------------------
@@ -79,10 +81,15 @@ V.init = function (data) {
  */
 V.createPageFragment = function (data) {
     // Création du fragment depuis le template HTML
+
     let pageFragment = htmlToFragment(template);
+    
+    
+
+    pageFragment.querySelector("#personnalisé").innerHTML = data.username;
 
     // Génération des cartes produits à partir des données
-    let productsDOM = ProductView.dom(data);
+    let productsDOM = ProductView.dom(data.products);
 
     // Remplacement du slot par le contenu généré
     pageFragment.querySelector('slot[name="products"]').replaceWith(productsDOM);

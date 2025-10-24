@@ -23,8 +23,6 @@ AuthData.AmILogged = async function () {
 
 AuthData.info = async function () {
     let data = await getRequest('auth');
-    console.log("data :")
-    console.log(data)
     return data
 }
 
