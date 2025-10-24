@@ -1,7 +1,7 @@
 import {getRequest} from '../lib/api-request.js';
 import { JSONpostRequest } from '../lib/api-request.js';
 import { postRequest } from '../lib/api-request.js';
-
+import { patchRequest } from '../lib/api-request.js';
 
 let AuthData = {};
 
@@ -29,6 +29,11 @@ AuthData.info = async function () {
 AuthData.disconnect = async function () {
     let data = await getRequest('disconnect')
     console.log("déconnexion.....")
+}
+
+AuthData.patch = async function (value) {
+    let data = await patchRequest('auth', value)
+    return data
 }
 
 

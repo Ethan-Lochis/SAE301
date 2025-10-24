@@ -1,3 +1,17 @@
-<img src="../../../assets/Icons/profile-1335-svgrepo-com.svg" alt="Icone Profile" class="w-40 h-40"/>
-<h1 class="mt-8 text-5xl">Bonjour {{username}}</h1>
-<button id="logoutBtn" class="bg-main text-fg py-4 px-8 text-2xl mt-28 cursor-pointer hover:bg-Darkmain">Se déconnecter</button>
+<img src="../../../assets/Icons/profile-1335-svgrepo-com.svg" alt="Icone Profile" class="w-40 h-40" />
+<div class="flex gap-2 justify-center items-end w-full">
+    <h1 class="mt-8 text-5xl">Bonjour <span id="username">{{username}}</span></h1>
+    <button class="mb-1 h-8 w-8 text-fg cursor-pointer" title="Modifier votre nom d'utilisateur">
+        <img id="edit-username" src="../../../assets/Icons/edit.png" alt="icone pour modifier le profile"
+            class="h-full w-full" />
+    </button>
+</div>
+<div>
+    <button class="bg-main text-fg py-4 px-8 text-2xl mt-28 cursor-pointer hover:bg-Darkmain" id="ChangePWD">
+        Changer de mot de passe
+    </button>
+    <span id="passWord"></span>
+    <button id="logoutBtn" class="bg-main text-fg py-4 px-8 text-2xl mt-28 cursor-pointer hover:bg-Darkmain">
+        Se déconnecter
+    </button>
+</div>
