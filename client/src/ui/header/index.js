@@ -4,7 +4,7 @@ import template from "./template.html?raw";
 // Template d'un lien de catégorie avec Tailwind
 const linkTemplate = `
 <a href="/categories/{{id}}/{{name}}" data-link
-   class="text-white px-4 py-2 rounded transition-colors duration-200 hover:bg-white/10">
+   class="text-black px-4 py-2 rounded transition-colors duration-200 hover:bg-white/10">
    {{name}}
 </a>`;
 
